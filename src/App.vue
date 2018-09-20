@@ -1,28 +1,42 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+
+    <addTask/>
+
+    <div class="row">
+      <card v-for="(cardName, index) in cardNames" :key="index" :name="cardName"/>
+    </div>
+
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import addTask from './components/addTask.vue'
+import card from './components/card.vue'
+import firebase from 'firebase'
+
+const database = firebase.database()
 
 export default {
   name: 'app',
+  data () {
+    return {
+      cardNames: ['Todo', 'On-going', 'Done']
+    }
+  },
   components: {
-    HelloWorld
+    addTask,
+    card
+  },
+  created () {
+    let kanban = database.ref('Kanban')
+
+    kanban.on('value', (snapshot) => {
+      console.log(snapshot.val())
+    })
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
