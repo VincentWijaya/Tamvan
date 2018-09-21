@@ -14,6 +14,8 @@
               <br>
               <input type="text" class="form-control" placeholder="Insert your task description" v-model='description' autocomplete="off">
               <br>
+              <input type="text" class="form-control" placeholder="Task assign to....." v-model='assign' autocomplete="off">
+              <br>
               <input type="button" class="btn btn-light" value="Submit" @click="addTask">
             </form>
           </div>
@@ -30,7 +32,8 @@ export default {
   data () {
     return {
       task: '',
-      description: ''
+      description: '',
+      assign: ''
     }
   },
   methods: {
@@ -38,11 +41,13 @@ export default {
       database.ref('/').push({
         task: this.task,
         description: this.description,
-        status: 'Todo'
+        assign: this.assign,
+        status: 'Back-log'
       })
 
       this.task = ''
       this.description = ''
+      this.assign = ''
     }
   }
 }

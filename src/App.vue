@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="body">
 
     <addTask/>
 
@@ -19,7 +19,7 @@ export default {
   name: 'app',
   data () {
     return {
-      cardNames: ['Todo', 'On-going', 'Done'],
+      cardNames: ['Back-log', 'Todo', 'On-going', 'Done'],
       tasks: []
     }
   },
@@ -36,6 +36,7 @@ export default {
           id: data.key,
           task: data.val().task,
           description: data.val().description,
+          assign: data.val().assign,
           status: data.val().status
         }
 
@@ -54,4 +55,7 @@ export default {
 </script>
 
 <style>
+.body {
+  background-color: lightgrey
+}
 </style>

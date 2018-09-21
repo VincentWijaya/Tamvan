@@ -3,6 +3,7 @@
     <div class="card">
       <div class="card-body">
         <h4 class="card-title text-center">{{ name }}</h4>
+        <hr class="light my-4">
         <contentCard :cardName="name" :content="content"/>
       </div>
     </div>
