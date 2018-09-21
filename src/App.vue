@@ -4,7 +4,7 @@
     <addTask/>
 
     <div class="row">
-      <card v-for="(cardName, index) in cardNames" :key="index" :name="cardName"/>
+      <card v-for="(cardName, index) in cardNames" :key="index" :name="cardName" :content="content"/>
     </div>
 
   </div>
@@ -15,40 +15,40 @@ import addTask from './components/addTask.vue'
 import card from './components/card.vue'
 import database from './firebaseConf.js'
 
-const taskData = [
-  {
-    name: 'Todo',
-    data: []
-  },
-  {
-    name: 'On-going',
-    data: []
-  },
-  {
-    name: 'Done',
-    data: []
-  }
-]
-
 export default {
   name: 'app',
   data () {
     return {
-      cardNames: ['Todo', 'On-going', 'Done']
+      cardNames: ['Todo', 'On-going', 'Done'],
+      tasks: []
     }
   },
   components: {
     addTask,
     card
   },
-  created() {
+  created () {
     database.ref('/').on('value', (snapshot) => {
-      let done = snapshot.val().Kanban.Done
-      
-      for (let task in done) {
-        console.log(task)
-      }
+      let arr = []
+
+      snapshot.forEach(data => {
+        let obj = {
+          id: data.key,
+          task: data.val().task,
+          description: data.val().description,
+          status: data.val().status
+        }
+
+        arr.push(obj)
+      })
+
+      this.tasks = arr
     })
+  },
+  computed: {
+    content () {
+      return this.tasks
+    }
   }
 }
 </script>

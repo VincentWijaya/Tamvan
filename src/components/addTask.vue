@@ -6,15 +6,15 @@
           <h2 class="section-heading text-dark">Create your task here!</h2>
           <hr class="light my-4">
           <div class="alert alert-warning" id="error" style="display: none">
-            
+
           </div>
           <div class="form-group">
             <form>
-              <input type="text" class="form-control" placeholder="Insert your task name" required autocomplete="off">
+              <input type="text" class="form-control" placeholder="Insert your task name" v-model="task" autocomplete="off">
               <br>
-              <input type="text" class="form-control" placeholder="Insert your task description" required autocomplete="off">
+              <input type="text" class="form-control" placeholder="Insert your task description" v-model='description' autocomplete="off">
               <br>
-              <input type="button" class="btn btn-light" value="Submit">
+              <input type="button" class="btn btn-light" value="Submit" @click="addTask">
             </form>
           </div>
         </div>
@@ -24,7 +24,27 @@
 </template>
 
 <script>
+import database from '../firebaseConf.js'
+
 export default {
+  data () {
+    return {
+      task: '',
+      description: ''
+    }
+  },
+  methods: {
+    addTask () {
+      database.ref('/').push({
+        task: this.task,
+        description: this.description,
+        status: 'Todo'
+      })
+
+      this.task = ''
+      this.description = ''
+    }
+  }
 }
 </script>
 

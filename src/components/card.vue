@@ -3,7 +3,7 @@
     <div class="card">
       <div class="card-body">
         <h4 class="card-title text-center">{{ name }}</h4>
-        <contentCard/>
+        <contentCard :cardName="name" :content="content"/>
       </div>
     </div>
   </div>
@@ -13,7 +13,7 @@
 import contentCard from './contentCard.vue'
 
 export default {
-  props: ['name'],
+  props: ['name', 'content'],
   components: {
     contentCard
   }
