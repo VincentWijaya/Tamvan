@@ -13,9 +13,22 @@
 <script>
 import addTask from './components/addTask.vue'
 import card from './components/card.vue'
-import firebase from 'firebase'
+import database from './firebaseConf.js'
 
-const database = firebase.database()
+const taskData = [
+  {
+    name: 'Todo',
+    data: []
+  },
+  {
+    name: 'On-going',
+    data: []
+  },
+  {
+    name: 'Done',
+    data: []
+  }
+]
 
 export default {
   name: 'app',
@@ -28,11 +41,13 @@ export default {
     addTask,
     card
   },
-  created () {
-    let kanban = database.ref('Kanban')
-
-    kanban.on('value', (snapshot) => {
-      console.log(snapshot.val())
+  created() {
+    database.ref('/').on('value', (snapshot) => {
+      let done = snapshot.val().Kanban.Done
+      
+      for (let task in done) {
+        console.log(task)
+      }
     })
   }
 }
